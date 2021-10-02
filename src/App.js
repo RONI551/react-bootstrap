@@ -1,57 +1,37 @@
 
 import './App.css';
 // import Card from './components/Cards/Card';
-import {Button,Spinner } from 'react-bootstrap';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
-import Card from './components/Cards/Card';
+import { Card, Col, Row, Spinner } from 'react-bootstrap';
+import News from './components/News/News';
+
 
 
 
 function App() {
-  const items =[
+
+
+  const [news, setNews]=useState([]) 
+  
+  useEffect(()=>{
     
-    {name:'  Shohid minar', description:'This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.', img:'https://upload.wikimedia.org/wikipedia/commons/d/dd/Shaheed_minar_Roehl.jpg'},
-
-    {name:'  Shohid minar', description:'This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.', img:'https://upload.wikimedia.org/wikipedia/commons/d/dd/Shaheed_minar_Roehl.jpg'},
-
-    {name:'  Shohid minar', description:'This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.', img:'https://upload.wikimedia.org/wikipedia/commons/d/dd/Shaheed_minar_Roehl.jpg'},
-
-    {name:'  Shohid minar', description:'This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.', img:'https://upload.wikimedia.org/wikipedia/commons/d/dd/Shaheed_minar_Roehl.jpg'}
-  
-  
-  
-  ]
-
-
-
-
+    
+    fetch('https://newsapi.org/v2/everything?q=tesla&from=2021-09-02&sortBy=publishedAt&apiKey=94d71f1e193b44e5830090f34c6ba14a').then(res=>res.json()).then(data=>setNews(data.articles))    },[])
 
   return (
 
-    <div>
-    
-<div className="row row-cols-1 row-cols-md-4 g-4">
- 
-{
-  items.map(item=><Card item={item}>
-    
-    
-    </Card>)
-}
+<div className="app">
 
+{ news.length ===0 ?<Spinner animation="border" /> :
+<Row xs={1} md={3} className="g-4">
+  {
+    news.map(nw =><News news={nw}></News>)
+  }
+</Row>}
 
 </div>
-<Button variant='danger'> hello</Button>
-<Spinner animation="grow" />
-
-
-
-
-</div>
-
-
-
   );
 }
 //button adding in react 
